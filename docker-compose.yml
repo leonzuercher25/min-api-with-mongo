@@ -4,13 +4,14 @@ services:
   webapi:
     image: webapi-mongo-app
     build:
-      context: ./WebApi
+      context: .
       dockerfile: Dockerfile
     ports:
       - "5001:5001"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5001
+      - DatabaseSettings__ConnectionString=mongodb://gbs:geheim@mongodb:27017
     depends_on:
       - mongodb
 
@@ -18,6 +19,9 @@ services:
     image: mongo:latest
     ports:
       - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=gbs
+      - MONGO_INITDB_ROOT_PASSWORD=geheim
     volumes:
       - mongo-data:/data/db
 
